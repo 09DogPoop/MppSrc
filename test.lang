@@ -1,2 +1,4 @@
 printc"Hello World!"
-printc"Welcome"
+output"Welcome"
+
+980
