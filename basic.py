@@ -1,4 +1,3 @@
-from ast import parse
 from sys import *
 
 tokens = []
@@ -11,6 +10,8 @@ def lex(filecontents):
     tok = ""
     state = 0
     string = ""
+    expr = ""
+    n = ""
     filecontents = list(filecontents)
     for char in filecontents:
         tok += char
@@ -19,8 +20,12 @@ def lex(filecontents):
                 tok = ""
             else:
                 tok = " "  
-        elif tok == "printc":
-            tokens.append("printc")
+        elif tok == "printc" or tok == "output":
+            tokens.append("")
+            tok = ""
+        elif tok == "0" or tok == "1" or tok == "2" or tok == "3" or tok == "4" or tok == "5" or tok == "6" or tok == "7" or tok == "8" or tok == "9":
+            expr += tok
+            print("> ")
             tok = ""
         elif tok == "\n":
             tok = ""
@@ -28,28 +33,21 @@ def lex(filecontents):
             if state == 0:
                 state = 1
             elif state == 1:
-                tokens.append("STRING: " + string + "\"")
+                tokens.append("" + string + "\"")
                 string = ""
                 state = 0
                 tok = ""
         elif state == 1:
             string += tok
             tok = ""
-    return tokens
+    print(expr)
+    print(tokens)
     # print(tokens)
 
-def parse(toks):
-    i = 0
-    while(i < len(toks)):
-        if toks[i] + " " + toks[i+1][0:6] == "> ":
-            print(toks[i+1][6:])
-            i+=2
-           
-        
 
 def run():
     data = open_file(argv[1])
-    toks = lex(data)
-    parse(toks)
+    lex(data)
+    
 
 run()
